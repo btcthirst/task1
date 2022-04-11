@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./styles/main.css">
+    <script type="module" src="./scripts/index.js"></script>
+</head>
+
+<body>
+    <div class="container mt-3">
+        <div class="container">
+            <table id="tbn" class="table">
+                <thead>
+                    <tr class="bg-dark text-light">
+                        <th>Name</th>
+                        <th>Created</th>
+                        <th>Category</th>
+                        <th>Content</th>
+                        <th>Dates</th>
+                        <th><i class="bi bi-pen-fill"></i></th>
+                        <th><i class="bi bi-file-zip-fill"></i></th>
+                        <th><i class="bi bi-trash-fill"></i></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-end">
+
+            <button id="create">Create Note</button>
+        </div>
+        <div class="container">
+            <table id="tbc" class="table">
+                <thead>
+                    <th>Note Category</th>
+                    <th>Active</th>
+                    <th>Archived</th>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <div id="popup" class="popup close">
+        <div class="popup_body">
+            <div class="popup_content">
+                <a class="popup_close"><i class="bi bi-x-circle text-danger text-lg"></i></a>
+                <form id="create-note">
+                    <div class="form-control d-flex justify-content-between py-3">
+                        <label>Name</label>
+                        <input type="text" id="name" size="30" required>
+                    </div>
+                    <div class="form-control d-flex justify-content-between py-3">
+                        <label>Category &nbsp; </label>
+                        <input type="text" id="category" size="30" required>
+                    </div>
+                    <div class="form-control d-flex justify-content-between py-3">
+                        <label>Content</label>
+                        <input type="text" id="content" size="30" required>
+                    </div>
+                    <div class="d-flex justify-content-between p-3">
+                        <button type="submit">Submit</button>
+                        <button type="reset">Reset</button>
+                    </div>
+                    <div class="d-none">
+                        <input type="text" id="index">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

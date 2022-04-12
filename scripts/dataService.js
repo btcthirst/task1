@@ -19,6 +19,8 @@ const dataService = {
         '<i class="bi bi-trash-fill"></i>',
     ],
     operations: ["update", "archive", "remove"],
+
+    isArchivedVisible: true,
 };
 
 export const checkNames = (name) => {
@@ -41,14 +43,21 @@ export const initHtmlElements = () => {
     dataService.notesTbody = getElement("#tbn>tbody");
     dataService.categoryTbody = getElement("#tbc>tbody");
     dataService.form = getElement("#create-note");
+    dataService.archived = getElement("#archived");
 
     dataService.form.addEventListener("submit", formSubmit);
     dataService.createButton.addEventListener("click", createHandler);
+    dataService.archived.addEventListener("click", archiveToggler);
 
     writeNotesTable();
 
     writeCategoryTable();
     initPopup();
+};
+
+export const archiveToggler = () => {
+    dataService.isArchivedVisible = !dataService.isArchivedVisible;
+    writeNotesTable();
 };
 
 export const writeCategoryTable = () => {
@@ -66,7 +75,9 @@ export const writeCategoryTable = () => {
 };
 
 export const writeNotesTable = () => {
-    dataService.activeNotes = dataService.allNotes.filter((el) => el.active);
+    dataService.activeNotes = dataService.allNotes.filter(
+        (el) => el.active == dataService.isArchivedVisible
+    );
     dataService.notesTbody.innerHTML = "";
 
     for (let index in dataService.activeNotes) {

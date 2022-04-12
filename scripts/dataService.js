@@ -20,9 +20,7 @@ const dataService = {
     ],
     operations: ["update", "archive", "remove"],
 
-    pattern: new RegExp(
-        "(([0-9]{2}/[0-9]{2}/[0-9]{4})|([0-9]{2}.[0-9]{2}.[0-9]{4})|([0-9]{2}-[0-9]{2}-[0-9]{4}))"
-    ),
+    isArchivedVisible: true,
 };
 
 export const checkNames = (name) => {
@@ -45,14 +43,21 @@ export const initHtmlElements = () => {
     dataService.notesTbody = getElement("#tbn>tbody");
     dataService.categoryTbody = getElement("#tbc>tbody");
     dataService.form = getElement("#create-note");
+    dataService.archived = getElement("#archived");
 
     dataService.form.addEventListener("submit", formSubmit);
     dataService.createButton.addEventListener("click", createHandler);
+    dataService.archived.addEventListener("click", archiveToggler);
 
     writeNotesTable();
 
     writeCategoryTable();
     initPopup();
+};
+
+export const archiveToggler = () => {
+    dataService.isArchivedVisible = !dataService.isArchivedVisible;
+    writeNotesTable();
 };
 
 export const writeCategoryTable = () => {
@@ -70,7 +75,9 @@ export const writeCategoryTable = () => {
 };
 
 export const writeNotesTable = () => {
-    dataService.activeNotes = dataService.allNotes.filter((el) => el.active);
+    dataService.activeNotes = dataService.allNotes.filter(
+        (el) => el.active == dataService.isArchivedVisible
+    );
     dataService.notesTbody.innerHTML = "";
 
     for (let index in dataService.activeNotes) {
@@ -130,6 +137,7 @@ export const deleteNote = (dataArr, index) => {
 
 export const addNote = (name, category, content) => {
     const NEW_NOTE = new Note(name, category, content);
+    NEW_NOTE.dates = NEW_NOTE.checkDate();
     dataService.allNotes.push(NEW_NOTE);
 
     const notesTbody = getElement("#tbn>tbody");
@@ -144,15 +152,8 @@ export const updateNote = (name, category, content, index) => {
     let myArr = [...dataService.allNotes];
     myArr[index].name = name;
     myArr[index].category = category;
-    if (
-        dataService.pattern.test(myArr[index].content) &&
-        dataService.pattern.test(content)
-    ) {
-        myArr[index].dates = `${
-            dataService.pattern.exec(myArr[index].content)[0]
-        } / ${dataService.pattern.exec(content)[0]}`;
-    }
     myArr[index].content = content;
+    myArr[index].dates = myArr[index].checkDate();
     dataService.allNotes = [...myArr];
 
     writeNotesTable();

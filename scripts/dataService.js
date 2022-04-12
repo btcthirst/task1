@@ -19,10 +19,6 @@ const dataService = {
         '<i class="bi bi-trash-fill"></i>',
     ],
     operations: ["update", "archive", "remove"],
-
-    pattern: new RegExp(
-        "(([0-9]{2}/[0-9]{2}/[0-9]{4})|([0-9]{2}.[0-9]{2}.[0-9]{4})|([0-9]{2}-[0-9]{2}-[0-9]{4}))"
-    ),
 };
 
 export const checkNames = (name) => {
@@ -130,6 +126,7 @@ export const deleteNote = (dataArr, index) => {
 
 export const addNote = (name, category, content) => {
     const NEW_NOTE = new Note(name, category, content);
+    NEW_NOTE.dates = NEW_NOTE.checkDate();
     dataService.allNotes.push(NEW_NOTE);
 
     const notesTbody = getElement("#tbn>tbody");
@@ -144,15 +141,8 @@ export const updateNote = (name, category, content, index) => {
     let myArr = [...dataService.allNotes];
     myArr[index].name = name;
     myArr[index].category = category;
-    if (
-        dataService.pattern.test(myArr[index].content) &&
-        dataService.pattern.test(content)
-    ) {
-        myArr[index].dates = `${
-            dataService.pattern.exec(myArr[index].content)[0]
-        } / ${dataService.pattern.exec(content)[0]}`;
-    }
     myArr[index].content = content;
+    myArr[index].dates = myArr[index].checkDate();
     dataService.allNotes = [...myArr];
 
     writeNotesTable();

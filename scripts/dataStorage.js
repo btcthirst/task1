@@ -21,7 +21,7 @@ const notes = [
         name: "note",
         created: date.toLocaleDateString(),
         category: "Idea",
-        content: "create web-app Note to 12/04/2022",
+        content: "create web-app Note",
         dates: "",
         active: true,
     },

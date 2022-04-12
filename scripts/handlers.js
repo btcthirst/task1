@@ -1,5 +1,5 @@
 import { openPopup, closePopup } from "./popup.js";
-import { whatToDo, addNote, updateNote } from "./service.js";
+import { whatToDo, addNote, updateNote, checkNames } from "./dataService.js";
 
 export const handler = (event) => {
     let target = event.target;
@@ -8,8 +8,6 @@ export const handler = (event) => {
     }
 
     whatToDo(target.dataset.key, target.dataset.crud);
-
-    console.log("in", target.dataset.key, target.dataset.crud);
 };
 
 export const createHandler = (event) => {
@@ -19,21 +17,25 @@ export const createHandler = (event) => {
 export const formSubmit = (event) => {
     event.preventDefault();
 
-    if (event.target[5].value != "") {
-        updateNote(
-            event.target[0].value,
-            event.target[1].value,
-            event.target[2].value,
-            event.target[5].value
-        );
-    } else {
-        addNote(
-            event.target[0].value,
-            event.target[1].value,
-            event.target[2].value
-        );
-    }
+    if (checkNames(event.target[0].value) || event.target[5].value) {
+        if (event.target[5].value != "") {
+            updateNote(
+                event.target[0].value,
+                event.target[1].value,
+                event.target[2].value,
+                event.target[5].value
+            );
+        } else {
+            addNote(
+                event.target[0].value,
+                event.target[1].value,
+                event.target[2].value
+            );
+        }
 
-    closePopup();
-    event.target.reset();
+        closePopup();
+        event.target.reset();
+    } else {
+        alert("this name is exist");
+    }
 };

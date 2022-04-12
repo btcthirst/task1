@@ -1,4 +1,4 @@
-let date = new Date();
+const date = new Date();
 
 const notes = [
     {
@@ -21,7 +21,7 @@ const notes = [
         name: "note",
         created: date.toLocaleDateString(),
         category: "Idea",
-        content: "create web-app Note",
+        content: "create web-app Note to 12/04/2022",
         dates: "",
         active: true,
     },
